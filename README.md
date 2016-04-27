@@ -1,3 +1,29 @@
+### Warning
+This is a fork of the original Cmdliner package,
+with a minor modification that allows the developer to set
+the preferred `FMT` through `Term.info`:
+
+```ocaml
+let cmd =
+    let doc = "My tool is..." in
+    let version = "0.0.0" in
+    let fmt = `Plain in  (* <--- *)
+    let man = [
+        `S "Description";
+        `P "$(tname) does this and that.";
+    ] in
+    Term.(const my_tool $ input_file $ output_file),
+    Term.(info "my_tool" ~version ~doc ~man ~fmt)
+                                          (* ^^^ *)
+
+let () = 
+    match Cmdliner.Term.eval cmd with 
+    | `Error _ -> exit 1
+    | _ -> exit 0
+```
+
+More on this: [Cmdliner/#53](https://github.com/dbuenzli/cmdliner/pull/53)
+
 Cmdliner — Declarative definition of command line interfaces for OCaml
 -------------------------------------------------------------------------------
 Release %%VERSION%%
